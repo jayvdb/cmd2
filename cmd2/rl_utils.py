@@ -123,7 +123,11 @@ elif 'gnureadline' in sys.modules or 'readline' in sys.modules:
             try:
                 readline_lib = ctypes.CDLL(readline.__file__)
             except AttributeError:
-                pass
+                try:
+                    readline_lib = ctypes.CDLL(sys.executable)
+                    readline_lib.rl_forced_update_display
+                except Exception:
+                    pass
 
     if readline_lib:
         rl_type = RlType.GNU
